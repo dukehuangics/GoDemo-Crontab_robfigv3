@@ -39,7 +39,7 @@ print_example_index=10
 
 ## 定時器使用說明
 `./main.go:main()`  使用以下範例即可加入定時任務!
-```
+```go
 	cronAddJob(cronJob, "@every 10s", "定時任務名稱", func() {
 		printExample.StartJob()
 	}, true)
