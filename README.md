@@ -22,7 +22,7 @@ Crontab 定時器專案建置展示.
 ```
 
 ## 環境設定值
-==./configs/env.conf==
+` ./configs/env.conf `
 ```bash
 #UTF-8
 # 設定CPU核心數 0=開啟所有核心,4=限制使用四顆核心,-1=所有核心數減一
