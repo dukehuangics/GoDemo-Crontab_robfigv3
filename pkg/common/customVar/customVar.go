@@ -19,8 +19,23 @@ type CustomTypes interface {
 @return error : 錯誤提示
 */
 func SetConfig(inputValue string, defaultValue, outputPointer interface{}, Custom CustomTypes) (err error) {
+	return configToVariable(inputValue, defaultValue, outputPointer, Custom)
+}
 
+/*
+將特定值值轉換成自訂型別並寫入到目標變數
+@param inputValue: 特定值
+@param Custom:  自訂型別，可OOP繼承與方法重載
+@return error : 錯誤提示
+*/
+func SetValue(inputValue, outputPointer interface{}, Custom CustomTypes) (err error) {
+	err = configToVariable(fmt.Sprint(inputValue), inputValue, outputPointer, Custom)
+	return err
+}
+
+func configToVariable(inputValue string, defaultValue, outputPointer interface{}, Custom CustomTypes) (err error) {
 	outputVal, errVal := Custom.GetValue(inputValue)
+
 	switch outputPointer.(type) {
 	case *string:
 		outputPtr := outputPointer.(*string)

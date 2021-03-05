@@ -5,18 +5,15 @@ import (
 )
 
 const (
-	ConfigTitle = "重新讀取環境變數設置"
+	ConfigTitle     = "重新讀取環境變數設置"
 	Code_error_exit = 3 //強制關閉code
 )
 
 type AddSetings struct {
+	IsWritten     bool                  //輸出變數是否已寫入
 	DefaultValue  interface{}           //輸出預設值(輸入值錯誤時使用)
 	OutputPointer interface{}           //輸出變數(必須為指標)
 	Custom        customVar.CustomTypes //自訂設定值類型(工廠方法GetValue判定)
-}
-
-func (setings *AddSetings) Run(inputValue string) error {
-	return customVar.SetConfig(inputValue, setings.DefaultValue, setings.OutputPointer, setings.Custom)
 }
 
 var (

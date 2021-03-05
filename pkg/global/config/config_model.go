@@ -1,6 +1,7 @@
 package config
 
 import (
+	"crontab/pkg/common/customVar"
 	"io/ioutil"
 	"log"
 	"os"
@@ -12,10 +13,28 @@ import (
 @param needClear: 是否強制清除SettingMap
 */
 func CreatSettingMap(needClear bool) {
-	if needClear || len(SettingMap)<=0{
+	if needClear || len(SettingMap) <= 0 {
 		SettingMap = make(map[string]*AddSetings) //儲存環境變數,可依需求自行擴充
 	}
 	return
+}
+
+/*
+	將原先設定好輸入設定值字串寫入變數
+	@param inputValue: 輸入設定值字串
+	@return error : 錯誤提示
+*/
+func (setings *AddSetings) ToWrite(inputValue string) error {
+	setings.IsWritten = true
+	return customVar.SetConfig(inputValue, setings.DefaultValue, setings.OutputPointer, setings.Custom)
+}
+
+/*
+	將原先設定好輸入預設值字串寫入變數
+	@return error : 錯誤提示
+*/
+func (setings *AddSetings) ToDefault() error {
+	return customVar.SetValue(setings.DefaultValue, setings.OutputPointer, setings.Custom)
 }
 
 /*
@@ -64,10 +83,23 @@ func (cfgs *CfgType) ReadFile(configPath string, isInit bool) {
 				continue
 			}
 
-			if err := SettingMap[settingKey].Run(settingValue); err != nil {
+			if err := SettingMap[settingKey].ToWrite(settingValue); err != nil {
 				log.Printf("環境設定值錯誤警告: %v (Line:%v) > %v (%v)，將使用預設值'%v'代替.", configPath, index, value, err, SettingMap[settingKey].DefaultValue)
 			}
 
+		}
+	}
+
+	for index, value := range SettingMap { //若環境變數無此值則使用預設值
+		if value.IsWritten == false {
+			if err := value.ToDefault(); err != nil {
+				log.Printf("環境設定值錯誤警告: %v 中並未發現'%v', 將使用預設值' %v=%v '代替.", configPath, index, index, value.DefaultValue)
+			} else {
+				log.Printf("環境設定值錯誤警告: %v 中並未發現'%v', 且預設值' %v=%v ' 設置發生錯誤", configPath, index, index, value.DefaultValue)
+				if isInit {
+					os.Exit(Code_error_exit)
+				}
+			}
 		}
 	}
 }

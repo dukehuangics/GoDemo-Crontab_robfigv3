@@ -7,7 +7,7 @@ import (
 
 func init() {
 	CreatSettingMap(false)
-	SettingMap["cpu_core"] = &AddSetings{0, &Cfgs.CpuCore, &customVar.Uint8Type{}}
+	SettingMap["cpu_core"] = &AddSetings{DefaultValue: 0, OutputPointer: &Cfgs.CpuCore, Custom: &customVar.Uint8Type{}}
 	//SettingMap["XXX"] = &AddSetings{初始值, 輸出變數指標, 自訂設定值類型}
 	return
 }

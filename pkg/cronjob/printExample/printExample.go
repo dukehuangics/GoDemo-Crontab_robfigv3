@@ -12,7 +12,7 @@ var index int
 
 func init() {
 	config.CreatSettingMap(false)
-	config.SettingMap["print_example_index"] = &config.AddSetings{1, &index, &customVar.SecondsInADay{}}
+	config.SettingMap["print_example_index"] = &config.AddSetings{DefaultValue: 1, OutputPointer: &index, Custom: &customVar.SecondsInADay{}}
 }
 
 func StartJob() {
