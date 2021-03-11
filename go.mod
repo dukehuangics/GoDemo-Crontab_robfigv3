@@ -1,10 +1,8 @@
 module crontab
 
-go 1.14
+go 1.15
 
 require (
-	agit.bxvip.co/golang-api/share-ajun v1.5.0 // indirect
-	agit.bxvip.co/golang-api/share-ciaolan v1.6.2
 	github.com/go-gl/glfw v0.0.0-20190409004039-e6da0acd62b1 // indirect
 	github.com/go-redis/redis v6.15.9+incompatible
 	github.com/golang/groupcache v0.0.0-20200121045136-8c9f03a8e57e // indirect
