@@ -58,7 +58,7 @@ func main() {
 */
 func cronAddJob(cronJob *cron.Cron, spec, title string, cmd func(), runBeforeTask bool) {
 	if runBeforeTask {
-		cmd()
+		go cmd()
 	}
 
 	cronJob.AddFunc(spec, func() {
